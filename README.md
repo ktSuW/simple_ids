@@ -7,6 +7,28 @@
 
 ## How to use - TB added
 
+    ```
+        sudo apt update
+        sudo apt install docker.io
+        sudo systemctl start docker
+        sudo systemctl enable docker
+        docker build -t sql-injection-detector .
+        docker run -p 8080:80 sql-injection-detector
+        docker ps
+        docker ps -a
+        docker logs CONTAINER_ID
+    ```
+
+- How to run and 
+
+    ```
+        docker build -t sql-injection-detector .
+        docker run -p 5000:5000 sql-injection-detector
+
+    ```
+
+- `docker build -t sql-injection-detector .`
+
 ## SQL Injection (SQLi) Concepts
 
 - **Band**
