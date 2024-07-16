@@ -24,7 +24,7 @@
     ```
         docker build -t sql-injection-detector .
         docker run -p 5000:5000 sql-injection-detector
-
+sys
     ```
 
 - `docker build -t sql-injection-detector .`
@@ -88,15 +88,53 @@
 <details>
   <summary>Docker crash course</summary>
 
-- Docker daemon - responsible for getting images from registry  
-- Linux
+- Docker daemon (Engine)- responsible for getting images from registry  
     ```
         docker version
         systemctl start docker 
+        systemctl status docker 
+        docker images           : See the list of images
+        docker pull ubuntu      : pull ubuntu image
+        docker run imageName
+        docker run -it --name myContainer imageName : go inside the container 
+        cat /etc/os-release     : See OS flavour 
+        redheat                 : yum
+        ubuntu                  : apt
+        apt update -y           : Without update, can't install any package in ubuntu
+        ctrl + d                : Come out from the container, but it will stop the container
+        ctrl + pq
+        docker ps -a            " ps - process status is used to list running containers
+        docker rm containerName
     ```
+- it - interactive - keeps STDIN input open, therefore allow you to interact with the container
+    - t (tty) - pseduo-terminal to the container, enabling you to interact with terminal commands 
 
-- Window
-    - Start Docker Desktop 
+
+```
+docker run -it --name cont1 amazonlinux
+yum install git -y 
+
+docker run -it --name su_ubuntu ubuntu
+apt update 
+apt install git apache2 maven -y
+git -v
+mvn -v
+apache2 -v
+systemctl start apache2
+apt install systemctl -y
+systemctl start apache2 
+service apache2 start 
+docker start container1 : Go inside the container
+
+docker start cont1
+docker ps -a
+docker attach cont1
+docker pause cont1
+docker stop cont1   : will wait to finish all process running inside the container
+docker kill cont1   : won't wait to finish all processes 
+docker inspect cont1
+docker rm cont1, first you need to stop it first
+```
 </details>
 
 
