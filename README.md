@@ -29,7 +29,9 @@
 
 - `docker build -t sql-injection-detector .`
 
-## SQL Injection (SQLi) Concepts
+
+<details>
+  <summary>SQL Injection (SQLi) Concepts</summary>
 
 - **Band**
     - **In-Band** - The attack and its results are visible in the same channel of communication. In other words, the attacker can see the results of the injection directly in the application's response.
@@ -81,6 +83,22 @@
         UNION
         SELECT column_name(s) FROM table2;
     ```
+</details>
+
+<details>
+  <summary>Docker crash course</summary>
+
+- Docker daemon - responsible for getting images from registry  
+- Linux
+    ```
+        docker version
+        systemctl start docker 
+    ```
+
+- Window
+    - Start Docker Desktop 
+</details>
+
 
 ## References
 1. SQL injection, https://portswigger.net/web-security/sql-injection
