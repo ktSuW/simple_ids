@@ -1,34 +1,52 @@
 # Simple Intrusion Detection System for SQL Injections
 
-- This project is developed to learn about various types of SQL injections and Docker. The project use Flask app to detect SQL injection attempts in queries.
+- This project is developed to learn about various types of SQL injections, Docker, python flask. The project use Flask app to detect SQL injection attempts in queries.
 
+- Pending scope/tasks
+    - Dockerise the app
+        - Use docker compose
+- Stretch goals
+    - Collect logs of docker container
+        - Export the logs from the container to a file that can be used for analysis/search
+    - Once the logs are collected, look for what event were generated when testing with various detection patterns
+    - Write a very simple detection
 
-## Setup - TB Added
+----
 
-## How to use - TB added
+## How to Set up
 
-    ```
-        sudo apt update
-        sudo apt install docker.io
-        sudo systemctl start docker
-        sudo systemctl enable docker
-        docker build -t sql-injection-detector .
-        docker run -p 8080:80 sql-injection-detector
-        docker ps
-        docker ps -a
-        docker logs CONTAINER_ID
-    ```
+### Without Docker
 
-- How to run and 
+1. Step 1 : Clone the repo
+    - `git clone https://github.com/ktSuW/simple_ids.git` 
+2. Step 2 : Create a virtual environment
+    - `python3 -m venv simple_ids_env`
+    - run built-in venv module to activate the virtual environment
+    - m - module
+    - This virtual environment isolates the project dependencies from the system-wide python installation, preventing version conflicts and making dependency management easier
+3. Step 3 : Activate the virtual environment
+    - `source simple_ids_env/bin/activate`
+    - source - command to run the script in the current shell environment
+    - simple_ids_env/bin/activate - path to the activation script for the virtual environment 
+    - Activates the virontal environment, allowing the project to use the dependencies installed in the virtual environment.This makes sure when run python or pip, they point to the virtual environment's python interpreter and package manager, not the system wide ones
+4. Step 4 : Install the required packages
+    - `pip install flask flask-swagger-ui requests`
 
-    ```
-        docker build -t sql-injection-detector .
-        docker run -p 5000:5000 sql-injection-detector
-sys
-    ```
+5. Step 5 : Run the app
+    - `python app/main.py`
+6. Step 6 : Navigate to swagger UI
+    - `http://localhost:5000/swagger`
 
-- `docker build -t sql-injection-detector .`
+### Using Docker 
 
+- `sudo docker run -it --rm -p 5000:5000 simple_ids`
+
+- To do list
+    - Watch this, https://www.youtube.com/watch?v=Qf0wri9MvMY
+
+----
+
+## SQL Injection (SQLi) Concepts
 
 <details>
   <summary>SQL Injection (SQLi) Concepts</summary>

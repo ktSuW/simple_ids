@@ -1,11 +1,29 @@
 from flask import Flask, request, jsonify
+from flask_swagger_ui import get_swaggerui_blueprint
 from sql_injection_detector import SQLInjectionDetector
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/static')
 detector = SQLInjectionDetector()
 
+# Swagger configuration
+SWAGGER_URL = '/swagger'
+API_URL = '/static/swagger.json'
+swaggerui_blueprint = get_swaggerui_blueprint(
+    SWAGGER_URL,
+    API_URL,
+    config={
+        'app_name': "SQL Injection Detector API"
+    }
+)
+app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
+
 @app.route('/detect', methods=['POST'])
-def detect_injection(query):
+def detect_injection():
+    data = request.get_json()
+    if not data or 'query' not in data:
+        return jsonify({"error": "No query provided"}), 400
+    
+    query = data['query']
     detected_types = detector.detect(query)
     result = {
         'query': query,
@@ -17,26 +35,7 @@ def detect_injection(query):
 
 @app.route('/health', methods=['GET'])
 def health_check():
-    return jsonify({"status" : "healthy"}), 200
+    return jsonify({"status": "healthy"}), 200
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
-
-
-
-    # # Test queries
-    # queries = [
-    #     "SELECT * FROM users WHERE username = 'admin' OR 1=1",  # Tautology (both Inband and First Order)
-    #     "SELECT * FROM users UNION SELECT * FROM admins",  # Union-based
-    #     "SELECT * FROM users; DROP TABLE users;",  # Piggybacking
-    #     "SELECT * FROM users WHERE id = 1 OR 1=1--",  # Comment injection with tautology
-    #     "SELECT * FROM users WHERE username = '' OR '1'='1'",  # Another tautology variant
-    #     "SELECT * FROM users WHERE id = 1; EXEC xp_cmdshell('net user')",  # Stored procedure
-    #     "SELECT * FROM users WHERE username = 'admin%27 --'",  # Alternate encoding
-    #     "SELECT * FROM users WHERE id = 1 AND 1=1",  # Boolean-based blind
-    #     "SELECT * FROM users WHERE id = 1; WAITFOR DELAY '00:00:05'",  # Time-based blind
-    # ]
-
-    # # Test each query
-    # for query in queries:
-    #     detect_injection(query)

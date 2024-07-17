@@ -1,0 +1,110 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "SQL Injection Detector API",
+        "version": "1.0"
+    },
+    "paths": {
+        "/detect": {
+            "post": {
+                "summary": "Detect SQL injection",
+                "consumes": ["application/json"],
+                "produces": ["application/json"],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "query": {
+                                    "type": "string",
+                                    "example": "SELECT * FROM users WHERE username = 'admin' OR 1=1"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "query": {
+                                    "type": "string"
+                                },
+                                "detected_types": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    },
+                                    "example": [
+                                        "Data Extraction Channel => Inband => Tautology",
+                                        "Server Response => Blind-Based SQLi => Boolean-Based Blind Injection"
+                                    ]
+                                },
+                                "is_safe": {
+                                    "type": "boolean",
+                                    "example": false
+                                }
+                            }
+                        },
+                        "examples": {
+                            "Example 1": {
+                                "value": {
+                                    "query": "SELECT * FROM users WHERE username = 'admin' OR 1=1",
+                                    "detected_types": [
+                                        "Data Extraction Channel => Inband => Tautology"
+                                    ],
+                                    "is_safe": false
+                                }
+                            },
+                            "Example 2": {
+                                "value": {
+                                    "query": "SELECT * FROM users UNION SELECT * FROM admins",
+                                    "detected_types": [
+                                        "Data Extraction Channel => Inband => Union-Based SQLi"
+                                    ],
+                                    "is_safe": false
+                                }
+                            },
+                            "Example 3": {
+                                "value": {
+                                    "query": "SELECT * FROM users; DROP TABLE users;",
+                                    "detected_types": [
+                                        "Other Types => Illegal/Logically Incorrect Queries"
+                                    ],
+                                    "is_safe": false
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    }
+                }
+            }
+        },
+        "/health": {
+            "get": {
+                "summary": "Health check",
+                "produces": ["application/json"],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
