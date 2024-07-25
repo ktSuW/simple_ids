@@ -39,7 +39,42 @@
 
 ### Using Docker 
 
-- `sudo docker run -it --rm -p 5000:5000 simple_ids`
+- `docker --version`
+- `docker-compose --version`
+- `docker-compose up --build` : Run docker compose
+- `docker-compose down` : Stop the container
+
+### Debugging tips
+
+- `deactivate` : Exit a python virtual environment
+- Check docker and docker-compose version. There could be a mismatch if docker-compose version is outdated. To resolve this issue, do the followings:
+    - `sudo apt-get update`
+    - `sudo apt-get install docker-compose-plugin`
+    - `sudo apt-get remove docker docker-engine docker.io containerd runc`
+    - `sudo apt-get remove docker-compose`
+- After removing existing installations,
+    - `sudo apt-get update`
+    - `sudo apt-get install docker-compose-plugin`
+
+- If still does not work,
+    - `sudo curl -L "https://github.com/docker/compose/releases/download/v2.17.3/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose`
+
+    - `sudo chmod +x /usr/local/bin/docker-compose` : make it executable
+    - To make it accessible as `docker-compose`, create symlink
+        - `sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose`
+        - `ln` : create links
+        - `s` : create a symbolic link
+        - source file
+        - destination file 
+        - sudo ln -s sourcefile destinationFile
+        - Symlink
+            - Symbolic link, it is a special type of file that points to another file or directory. It is similar to a shortcut in windows
+            - If the original file is deleted, symblink will still exist, but will point to nothing, so it becomes broken link.
+            - They take up very little space, as they are pointers
+        - The reason to do above
+            - new version of docker compose is in /usr/local/bin/
+            - System-wide executables are expected to be in /usr/bin/
+            - By creating symlink, new docker-compose becomes accessible from the standard location without moving the actual file
 
 - To do list
     - Watch this, https://www.youtube.com/watch?v=Qf0wri9MvMY
@@ -103,6 +138,8 @@
     ```
 </details>
 
+---
+
 <details>
   <summary>Docker crash course</summary>
 
@@ -160,3 +197,4 @@ docker rm cont1, first you need to stop it first
 1. SQL injection, https://portswigger.net/web-security/sql-injection
 2. sql injection from OWASP,https://owasp.org/www-community/attacks/SQL_Injection
 3. SQL injection cheat sheet, https://www.invicti.com/blog/web-security/sql-injection-cheat-sheet/
+4. flask-restx, https://flask-restx.readthedocs.io/en/latest/

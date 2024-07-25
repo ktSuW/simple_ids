@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  app:
+    image: simple_ids:v1
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_APP=app/main.py
+      - FLASK_ENV=development
+    volumes:
+      - .:/app

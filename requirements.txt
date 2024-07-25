@@ -3,3 +3,6 @@
 
 # Flask Framework
 Flask==2.3.3
+flask
+flask-restx
+flask_swagger_ui
